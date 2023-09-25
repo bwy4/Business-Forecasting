@@ -1,0 +1,149 @@
+---
+title: "Brandon Ying HW1"
+output: html_document
+date: "2023-09-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+library(tidyr)
+library(ggplot2)
+library(lessR)
+
+```
+
+```{r}
+Typical_Employee_Survey_Data <- read_xlsx("Typical_Employee_Survey_Data.xlsx")
+
+colnames(Typical_Employee_Survey_Data)[3] = "Satisfaction"
+colnames(Typical_Employee_Survey_Data)[4] = "Characteristics"
+
+colnames(Typical_Employee_Survey_Data)[5] = "Years Worked"
+
+colnames(Typical_Employee_Survey_Data)[6] = "Promotion"
+
+colnames(Typical_Employee_Survey_Data)[7] = "Decisions"
+
+colnames(Typical_Employee_Survey_Data)[8] = "Budget"
+
+colnames(Typical_Employee_Survey_Data)[9] = "Proud"
+
+colnames(Typical_Employee_Survey_Data)[10] = "Stay"
+
+colnames(Typical_Employee_Survey_Data)[11] = "Relations"
+colnames(Typical_Employee_Survey_Data)[1] = "Age"
+colnames(Typical_Employee_Survey_Data)[2] = "Gender"
+
+```
+
+```{r}
+str(Typical_Employee_Survey_Data)
+
+boxplot(Typical_Employee_Survey_Data$Age)
+fivenum(Typical_Employee_Survey_Data$Age)
+
+boxplot(Typical_Employee_Survey_Data$Satisfaction)
+fivenum(Typical_Employee_Survey_Data$Satisfaction)
+
+boxplot(Typical_Employee_Survey_Data$Gender)
+fivenum(Typical_Employee_Survey_Data$Gender)
+
+boxplot(Typical_Employee_Survey_Data$Characteristics)
+fivenum(Typical_Employee_Survey_Data$Characteristics)
+
+boxplot(Typical_Employee_Survey_Data$`Years Worked`)
+fivenum(Typical_Employee_Survey_Data$`Years Worked`)
+
+boxplot(Typical_Employee_Survey_Data$Promotion)
+fivenum(Typical_Employee_Survey_Data$Promotion)
+
+boxplot(Typical_Employee_Survey_Data$Decisions)
+fivenum(Typical_Employee_Survey_Data$Decisions)
+
+boxplot(Typical_Employee_Survey_Data$Budget)
+fivenum(Typical_Employee_Survey_Data$Budget)
+
+boxplot(Typical_Employee_Survey_Data$Proud)
+fivenum(Typical_Employee_Survey_Data$Proud)
+
+boxplot(Typical_Employee_Survey_Data$Stay)
+fivenum(Typical_Employee_Survey_Data$Stay)
+
+boxplot(Typical_Employee_Survey_Data$Relations)
+fivenum(Typical_Employee_Survey_Data$Relations)
+```
+
+```{r}
+
+Typical_Employee_Survey_Data$Satisfaction = as.factor(Typical_Employee_Survey_Data$Satisfaction)
+
+Typical_Employee_Survey_Data$Gender = as.factor(Typical_Employee_Survey_Data$Gender)
+
+Typical_Employee_Survey_Data$Characteristics = as.factor(Typical_Employee_Survey_Data$Characteristics)
+
+Typical_Employee_Survey_Data$Promotion= as.factor(Typical_Employee_Survey_Data$Promotion)
+
+Typical_Employee_Survey_Data$Decisions = as.factor(Typical_Employee_Survey_Data$Decisions)
+
+Typical_Employee_Survey_Data$Budget = as.factor(Typical_Employee_Survey_Data$Budget)
+
+Typical_Employee_Survey_Data$Proud = as.factor(Typical_Employee_Survey_Data$Proud)
+
+Typical_Employee_Survey_Data$Stay = as.factor(Typical_Employee_Survey_Data$Stay)
+
+Typical_Employee_Survey_Data$Relations = as.factor(Typical_Employee_Survey_Data$Relations)
+
+```
+
+```{r}
+stem(Typical_Employee_Survey_Data$Age)
+
+Genders = factor(c(rep("Male", 1),
+                      rep("Female",2)))
+Gender = Typical_Employee_Survey_Data$Gender
+PieChart(Genders, data=Gender, hole=0, labels_cex=0.6)
+
+SatisfCnt = table(Typical_Employee_Survey_Data$Satisfaction)
+barplot(SatisfCnt,main = "Satisfaction", names.arg=c("Very Satisfied", "Moderately Satisfied", " Dissatisfied", "Very Dissatisfied"))
+
+CharCnt = table(Typical_Employee_Survey_Data$Characteristics)
+barplot(CharCnt,main = "Characteristics", col="red", names.arg=c("High Income", "No Danger of Being Fired", "Flexible Hours", "Opportunities for Advancement", "Enjoying the Work"))
+
+plot(Typical_Employee_Survey_Data$`Years Worked`, xlab="Number of Entries", ylab="Number of Years Worked")
+
+PromoCnt = table(Typical_Employee_Survey_Data$Promotion)
+barplot(PromoCnt,main = "Promotion", col="Red", names.arg=c("Very Likely", "Likely", "Not Sure", "Unlikely", "Very Unlikely"))
+
+DecCnt = table(Typical_Employee_Survey_Data$Decisions)
+barplot(DecCnt,main = "Decision Making", col="Green", names.arg=c("Always", "Much of the Time", "Sometimes", "Never"))
+
+Budget_Category = factor(c(rep("yes", 1),
+                          rep("No",2)))
+Budgets = Typical_Employee_Survey_Data$Budget
+PieChart(Budget_Category, data=Budgets, hole=0, labels_cex=0.6)
+
+PrideCnt = table(Typical_Employee_Survey_Data$Proud)
+barplot(PrideCnt,main = "Organization Pride", col="purple", names.arg=c("Very Proud", "Somewhat Proud", "Indifferent", "Not At All Proud"))
+
+LoyCnt = table(Typical_Employee_Survey_Data$Stay)
+barplot(LoyCnt,main = "Loyalty to Job", col="blue", names.arg=c("Very Likely", "Likely", "Not Sure", "Unlikely", "Very Unlikely"))
+
+RelCnt = table(Typical_Employee_Survey_Data$Relations)
+barplot(RelCnt,main = "Work Relationships", col="orange", names.arg=c("Very Good", "Good", "So So", "Bad"))
+
+```
+
+```{r}
+
+plot(x = Typical_Employee_Survey_Data$`Years Worked`, y = Typical_Employee_Survey_Data$Proud, xlab = "Years of Experience", ylab = "Pride", main ="Relationship between Experience and Pride")
+
+plot(x = Typical_Employee_Survey_Data$Age, y = Typical_Employee_Survey_Data$Gender, xlab = "Gender", ylab = "Age of Employees", main ="Age vs Gender of Employee")
+
+plot(x = Typical_Employee_Survey_Data$Age, y = Typical_Employee_Survey_Data$Relations, xlab = "Satisfaction Level", ylab = "Employee Loyalty", main ="Age vs Relations")
+
+```
+
