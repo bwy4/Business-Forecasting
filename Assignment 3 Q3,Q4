@@ -1,0 +1,5 @@
+Data Collection Methodology (2 points). State how the data is collected, by whom, how often, etc. 
+Data is sourced from Yahoo Finance, {https://ca.finance.yahoo.com/quote/MRK/history?p=MRK).  Yahoo Finance gets their data from the New York Stock Exchange (NYSE) and the Nasdaq Stock Exchange (Nasdaq).  The drawback is that they are not live, with a 15 minute delay.  For the purposes of this data set, this is not relevant, however. 
+
+4. Why does this data set intrigue you? (2 points). 
+I worked at Merck over the summer and know some of its history.  I am curious to see how the company's value has developed over the years.
