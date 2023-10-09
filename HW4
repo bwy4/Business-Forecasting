@@ -1,0 +1,12 @@
+Understand and Explain your model output (4 points)
+1) The Naive method of forecasting is used to serve as a benchmark for the other forecasts and is the least accurate model in this case, with high error measures across the board. 
+2) Averages use the average of past observations and sets weights to determine the significance of older values.  This is mainly used for daily, weekly, or short-term forecasts.  This does not take into account seasonality due to its short measurement period
+3)  The moving average assigns equal weight to few observations, also does not handle seasonality well
+4) HW is used for data with trends.  It called __double exponential smoothing__ since we have to estimate current level and slope for trend
+
+
+
+Pick an accuracy measure, compare your models, and state the best model based on the accuracy comparison (2 points)
+
+  The accuracy measure I picked here was MAE.  When comparing the forecast methods, I found that the rwf_forecast had trrhe lowest MAE, of 2.28.  The method with the highest MAE was the mean_forecast, with 20.76 as the maen error.  
+Overall, it seems that the random walk forecast has the lowest and therefore the more accurate forecast.  
