@@ -1,0 +1,118 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-10-09"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(readxl)
+#Typical_Employee_Survey_Data <- read_excel("MRK.xlsx")
+MRK <- read_excel("/Users/brand/Downloads/MRK.xlsx")
+View(MRK)
+
+library(fpp)
+library(fpp2)
+library(TTR)
+
+MRK_df = data.frame(MRK)
+print(MRK_df)
+
+#take Mean of all available history
+
+mean_forecast <- meanf(MRK$Close,2)
+plot(mean_forecast)
+attributes(mean_forecast)
+mean_forecast
+mean_forecast$mean
+mean_forecast$lower
+mean_forecast$upper
+accuracy(mean_forecast)
+
+# Naive
+naive_forecast <- naive(MRK$Close,5)
+plot(naive_forecast)
+attributes(naive_forecast)
+naive_forecast
+naive_forecast$mean
+naive_forecast$lower
+naive_forecast$upper
+accuracy(naive_forecast)
+
+# Random Walk
+rwf_forecast <- rwf(MRK$Close,5)
+rwf_forecast <- rwf(MRK$Close,5, drift=TRUE)
+attributes(rwf_forecast)
+rwf_forecast
+rwf_forecast$mean
+rwf_forecast$lower
+rwf_forecast$upper
+accuracy(rwf_forecast)
+
+# Seasonal Naive
+snaive_forecast <- snaive(MRK$Close,5)
+attributes(snaive_forecast)
+snaive_forecast
+snaive_forecast$mean
+snaive_forecast$lower
+snaive_forecast$upper
+accuracy(snaive_forecast)
+
+# Moving Averages
+
+MA5_forecast <- ma(MRK$Close,order=5)
+MA5_forecast
+
+MA9_forecast <- ma(MRK$Close,order=9)
+MA9_forecast
+
+# plot all in a single chart
+plot(mean_forecast)
+lines(naive_forecast$mean,col="red")
+lines(rwf_forecast$mean,col="green")
+lines(snaive_forecast$mean,col="black")
+lines(MA5_forecast,col="Pink")
+lines(MA9_forecast,col="Blue")
+# what other attributes are there?
+attributes(naive_forecast)
+
+# Decomposition
+ets_forecast <- ets(MRK$Close)
+plot(ets_forecast)
+attributes(ets_forecast)
+ets_forecast$mse
+# HoltWinters
+Close.ts = ts(MRK$Close, frequency = 12, start=c(1985,1))
+HW_forecast <- HoltWinters(Close.ts)
+plot(HW_forecast)
+SSE_Simple <- HoltWinters(elecequip,beta=FALSE,gamma=FALSE)
+attributes(SSE_Simple)
+plot(SSE_Simple)
+SSE_Simple$SSE
+head(SSE_Simple$fitted)
+
+#Forecast
+forecast_ets_1 <- forecast.ets(ets_forecast, h=5)
+plot(forecast_ets_1)
+forecast_ets_2 <- forecast(ets_forecast, h=5)
+plot(forecast_ets_2)
+
+
+#Accuracy
+accuracy(mean_forecast)
+
+accuracy(naive_forecast)
+
+accuracy(rwf_forecast)
+
+accuracy(snaive_forecast)
+```
+
+
+```
+
