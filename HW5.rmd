@@ -1,0 +1,55 @@
+---
+title: "HW5 Decomposition"
+output: html_document
+date: "2023-10-29"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+#MRK <- read_excel("MRK.xlsx")
+MRK <- read_excel("/Users/brand/Downloads/MRK.xlsx")
+View(MRK)
+
+library(fpp)
+library(fpp2)
+library(TTR)
+```
+
+
+```{r}
+attributes(MRK$Close)
+plot(MRK$Close)
+
+Close = MRK$Close
+Close.ts = ts(MRK$Close, frequency = 12, start=c(1985,1))
+
+
+
+head(MRK)
+plot(MRK)
+stl_decomp <- stl(Close.ts,s.window ="periodic")
+plot(stl_decomp)
+attributes(stl_decomp)
+
+# Lets print out a seasonal adjustment
+seasadj(stl_decomp)
+# Plot a line on the graph
+plot(Close.ts)
+lines(seasadj(stl_decomp), col="Red")
+# Default period forecast
+f_stl <- forecast(stl_decomp)
+# you can pass the # of period
+f_stl <- forecast(stl_decomp,h=15)
+f_stl
+plot(f_stl)
+# There is more than one way to do things
+decomp_MRK <- decompose(Close.ts)
+
+# Each one shows different attributes 
+attributes(decomp_MRK)
+seasadj(decomp_MRK)
+```
