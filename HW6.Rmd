@@ -1,0 +1,58 @@
+---
+title: "ARIMA"
+author: "Brandon Ying"
+date: "11/22/2022"
+output: html_document
+---
+
+```{r}
+library(readxl)
+library(fpp)
+library(fpp2)
+library(forecast)
+MRK <- read_excel("/Users/brand/Downloads/MRK.xlsx")
+mrktimeseries <-  ts(MRK$Close, frequency = 12, start=c(1985,1))
+
+plot(mrktimeseries)
+ndiffs(mrktimeseries)
+tsdisplay(mrktimeseries)
+mrktimeseriesdiff1 <- diff(mrktimeseries, differences=1)
+plot(mrktimeseriesdiff1)
+tsdisplay(mrktimeseriesdiff1)
+auto_fit <- auto.arima(mrktimeseries, trace=TRUE, stepwise = FALSE)
+auto_fit
+attributes(auto_fit)
+plot(forecast(auto_fit,h=5,level=c(99.5)))
+#The data indicates that there is a strong positive correlation at the first lag, and that the previous year's data influences the next year's data.  
+
+#Residual Analysis
+Acf(auto_fit$residuals)
+#The ACF plot indicates a strong positive correlation throughout the entire set.
+Box.test(residuals(auto_fit), lag=20, type="Ljung")
+#The p-values for the Ljung-Box statistic are all above 0.05, indicating that we cannot reject the null hypothesis that the residuals are independent and identically distributed
+#The model may not actually be a good fit for the data
+plot.ts(residuals(auto_fit))
+hist(auto_fit$residuals)
+tsdiag(auto_fit)
+
+# Seasonal Data
+plot(mrktimeseries)
+nsdiffs(mrktimeseries)
+#No iterations were needed to show the seasonal differences.
+ndiffs(mrktimeseries)
+#It will only take 1 iteration to make the time series stationary
+ndiffs((diff(mrktimeseries,4)))
+tsdisplay(diff(diff(mrktimeseries,4)))
+fit3 <- auto.arima(mrktimeseries,trace=TRUE, stepwise = FALSE )
+fit3
+#the ACF and PACF plots suggest that the autoregressive coefficient is close to 1. This means that the current value of the differenced series is strongly influenced by its previous value.
+#The best arima model is shown here at (0,1,2) with drift.  The sigma^2 is 11.64, which is relatively low.  This indicates that there is a lesser degree of unexplained error within this model.
+
+#Residual Analysis
+Acf(fit3$residuals)
+Box.test(residuals(fit3), lag=20, type="Ljung")
+#The Ljung box statistic shows relatively high p-values, indicating that the ARIMA model may not be adequate for this data set
+plot.ts(residuals(fit3))
+hist(fit3$residuals)
+tsdiag(fit3)
+```
